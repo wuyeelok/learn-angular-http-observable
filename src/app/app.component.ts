@@ -12,6 +12,6 @@ export class AppComponent implements OnInit {
   title = 'Learn HTTP Observable';
 
   ngOnInit(): void {
-    this.userService.checkCurrentWeather();
+    // this.userService.checkCurrentWeather();
   }
 }
