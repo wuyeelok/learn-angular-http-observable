@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { UserService } from './service/user.service';
 import { Observable, Subscription } from 'rxjs';
 import { DumbHttpRespone } from './interface/dumb-http-respone';
+import { User } from './interface/user';
 
 @Component({
   selector: 'app-root',
@@ -35,15 +36,28 @@ export class AppComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    const dummyObserver = {
-      next: (res: DumbHttpRespone) => {
-        console.log('got response: ', res.code, res.data);
-      },
-      error: (err: any) => {
-        console.error(`What's wrong: ${err}`);
-      },
-      complete: () => console.log('Done!!!@!!!'),
-    };
-    this.dummySubscription = this.dummyObserva$.subscribe(dummyObserver);
+    this.onGetUsers();
+
+    this.onGetUser();
+  }
+
+  onGetUsers(): void {
+    const users$: Observable<User[]> = this.userService.getUsers();
+
+    users$.subscribe({
+      next: (res: User[]) => console.log(res),
+      error: (err: any) => console.error(err),
+      complete: () => console.log('Done getting all users!'),
+    });
+  }
+
+  onGetUser(): void {
+    const user$: Observable<User> = this.userService.getUser();
+
+    user$.subscribe({
+      next: (res: User) => console.log(res),
+      error: (err: any) => console.error(err),
+      complete: () => console.log('Done getting single user!'),
+    });
   }
 }
