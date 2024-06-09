@@ -13,6 +13,29 @@ export class AppComponent implements OnInit {
   private userService: UserService = inject(UserService);
 
   title = 'Learn HTTP Observable';
+  private user: User = {
+    id: 6,
+    name: 'Jsdfsfefr XXX',
+    username: 'WU',
+    email: 'Sincere@april.biz',
+    address: {
+      street: 'Kulas Light',
+      suite: 'Apt. 556',
+      city: 'Gwenborough',
+      zipcode: '92998-3874',
+      geo: {
+        lat: '-37.3159',
+        lng: '81.1496',
+      },
+    },
+    phone: '1-770-736-8031 x56442',
+    website: 'hildegard.org',
+    company: {
+      name: 'Romaguera-Crona',
+      catchPhrase: 'Multi-layered client-server neural-net',
+      bs: 'harness real-time e-markets',
+    },
+  };
 
   private dummySubscription: Subscription = new Subscription();
 
@@ -36,16 +59,19 @@ export class AppComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.onUpdateUser(this.user);
     this.onGetUsers();
 
-    this.onGetUser();
+    // this.onGetUser();
+
+    // this.onCreateUser(this.user);
   }
 
   onGetUsers(): void {
     const users$: Observable<User[]> = this.userService.getUsers();
 
     users$.subscribe({
-      next: (res: User[]) => console.log(res),
+      next: (res: User[]) => console.table(res),
       error: (err: any) => console.error(err),
       complete: () => console.log('Done getting all users!'),
     });
@@ -58,6 +84,26 @@ export class AppComponent implements OnInit {
       next: (res: User) => console.log(res),
       error: (err: any) => console.error(err),
       complete: () => console.log('Done getting single user!'),
+    });
+  }
+
+  onCreateUser(user: User): void {
+    const user$: Observable<User> = this.userService.createUser(user);
+
+    user$.subscribe({
+      next: (res: User) => console.log(res),
+      error: (err: any) => console.error(err),
+      complete: () => console.log('Done creating single user!'),
+    });
+  }
+
+  onUpdateUser(user: User): void {
+    const user$: Observable<User> = this.userService.updateUser(user);
+
+    user$.subscribe({
+      next: (res: User) => console.log(res),
+      error: (err: any) => console.error(err),
+      complete: () => console.log('Done updating single user!'),
     });
   }
 }
