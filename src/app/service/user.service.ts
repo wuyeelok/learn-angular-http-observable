@@ -2,12 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../interface/user';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private http: HttpClient = inject(HttpClient);
+  private apiUrl = environment.apiUrl;
 
   checkCurrentWeather() {
     this.http
@@ -27,10 +29,10 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>('https://jsonplaceholder.typicode.com/users');
+    return this.http.get<User[]>(`${this.apiUrl}/users`);
   }
 
   getUser(): Observable<User> {
-    return this.http.get<User>('https://jsonplaceholder.typicode.com/users/1');
+    return this.http.get<User>(`${this.apiUrl}/users/1`);
   }
 }
