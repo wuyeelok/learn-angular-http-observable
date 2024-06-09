@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -16,12 +16,12 @@ export class MovieService {
   constructor() {}
 
   displayPopularMovies(): Observable<PopMovieResult[]> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${this.apiAccessToken}`);
+
     return this.http
       .get<PopMovieSearch>(`${this.apiUrl}/movie/popular`, {
-        headers: {
-          accept: 'application/json',
-          Authorization: `Bearer ${this.apiAccessToken}`,
-        },
+        headers: headers,
       })
       .pipe(map((movie) => movie.results));
   }
