@@ -3,6 +3,7 @@ import { UserService } from './service/user.service';
 import { Observable, Subscription } from 'rxjs';
 import { DumbHttpRespone } from './interface/dumb-http-respone';
 import { User } from './interface/user';
+import { MovieService } from './service/movie.service';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { User } from './interface/user';
 })
 export class AppComponent implements OnInit {
   private userService: UserService = inject(UserService);
+  private movieService: MovieService = inject(MovieService);
 
   title = 'Learn HTTP Observable';
   private user: User = {
@@ -65,6 +67,12 @@ export class AppComponent implements OnInit {
     // this.onGetUser();
 
     // this.onCreateUser(this.user);
+
+    this.movieService.displayPopularMovies().subscribe({
+      next: (data: any) => console.table(data),
+      error: (err: any) => console.error(err),
+      complete: () => console.log('done fetch all popular movies'),
+    });
   }
 
   onGetUsers(): void {
