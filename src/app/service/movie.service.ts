@@ -1,9 +1,14 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpEvent,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PopMovieResult as MovieSearchResult } from '../interface/pop-movie-result';
-import { PopMovieSearch as MovieSearch } from '../interface/pop-movie-search';
+import { MovieSearchResult as MovieSearchResult } from '../interface/movie-search-result';
+import { MovieSearchResponse as MovieSearchResponse } from '../interface/movie-search-response';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +29,7 @@ export class MovieService {
     myParams = myParams.set('page', '1');
 
     return this.http
-      .get<MovieSearch>(`${this.apiUrl}/movie/popular`, {
+      .get<MovieSearchResponse>(`${this.apiUrl}/movie/popular`, {
         headers: headers,
         params: myParams,
       })
@@ -46,10 +51,36 @@ export class MovieService {
     myParams = myParams.set('page', processPage);
 
     return this.http
-      .get<MovieSearch>(`${this.apiUrl}/search/movie`, {
+      .get<MovieSearchResponse>(`${this.apiUrl}/search/movie`, {
         headers: myHeaders,
         params: myParams,
       })
       .pipe(map((data) => data.results));
+  }
+
+  getNowPlayingMovies(
+    page: number
+  ): Observable<HttpEvent<HttpEvent<MovieSearchResponse>>> {
+    let myHeaders: HttpHeaders = new HttpHeaders();
+    myHeaders = myHeaders.set('Authorization', `Bearer ${this.apiAccessToken}`);
+
+    let processPage = page;
+    if (!page) {
+      processPage = 1;
+    }
+
+    let myParams: HttpParams = new HttpParams();
+    myParams = myParams.set('language', 'en-US');
+    myParams = myParams.set('page', processPage);
+
+    return this.http.get<HttpEvent<MovieSearchResponse>>(
+      `${this.apiUrl}/movie/now_playing`,
+      {
+        headers: myHeaders,
+        params: myParams,
+        observe: 'events',
+        reportProgress: true,
+      }
+    );
   }
 }

@@ -4,7 +4,8 @@ import { Observable, Subscription } from 'rxjs';
 import { DumbHttpRespone } from './interface/dumb-http-respone';
 import { User } from './interface/user';
 import { MovieService } from './service/movie.service';
-import { HttpResponse } from '@angular/common/http';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { MovieSearchResponse } from './interface/movie-search-response';
 
 @Component({
   selector: 'app-root',
@@ -62,23 +63,39 @@ export class AppComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.onUpdateUser(this.user);
-    this.onGetUsers();
+    // this.onUpdateUser(this.user);
+    // this.onGetUsers();
 
-    // this.onGetUser();
+    // // this.onGetUser();
 
-    // this.onCreateUser(this.user);
+    // // this.onCreateUser(this.user);
 
-    this.movieService.displayPopularMovies().subscribe({
-      next: (data: any) => console.table(data),
+    // this.movieService.displayPopularMovies().subscribe({
+    //   next: (data: any) => console.table(data),
+    //   error: (err: any) => console.error(err),
+    //   complete: () => console.log('done fetch all popular movies'),
+    // });
+
+    // this.movieService.searchMovies('Run', 1).subscribe({
+    //   next: (data: any) => console.table(data),
+    //   error: (err: any) => console.error(err),
+    //   complete: () => console.log('done searching movies'),
+    // });
+
+    this.movieService.getNowPlayingMovies(1).subscribe({
+      next: (res) => {
+        if (res.type === HttpEventType.Response) {
+          console.log(`Compelete!`, res.body);
+
+          console.table((res.body as unknown as MovieSearchResponse).results);
+        } else if (res.type === HttpEventType.DownloadProgress) {
+          console.log(`Downloading data from server...`);
+        } else {
+          console.log(res);
+        }
+      },
       error: (err: any) => console.error(err),
-      complete: () => console.log('done fetch all popular movies'),
-    });
-
-    this.movieService.searchMovies('Run', 1).subscribe({
-      next: (data: any) => console.table(data),
-      error: (err: any) => console.error(err),
-      complete: () => console.log('done searching movies'),
+      complete: () => console.log('done now playing movies'),
     });
   }
 

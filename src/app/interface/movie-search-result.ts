@@ -1,4 +1,4 @@
-export interface PopMovieResult {
+export interface MovieSearchResult {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
