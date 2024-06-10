@@ -73,6 +73,12 @@ export class AppComponent implements OnInit {
       error: (err: any) => console.error(err),
       complete: () => console.log('done fetch all popular movies'),
     });
+
+    this.movieService.searchMovies('Run', 1).subscribe({
+      next: (data: any) => console.table(data),
+      error: (err: any) => console.error(err),
+      complete: () => console.log('done searching movies'),
+    });
   }
 
   onGetUsers(): void {
