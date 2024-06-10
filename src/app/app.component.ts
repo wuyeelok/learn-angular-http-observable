@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { DumbHttpRespone } from './interface/dumb-http-respone';
 import { User } from './interface/user';
 import { MovieService } from './service/movie.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -82,10 +83,12 @@ export class AppComponent implements OnInit {
   }
 
   onGetUsers(): void {
-    const users$: Observable<User[]> = this.userService.getUsers();
+    const users$ = this.userService.getUsers();
 
     users$.subscribe({
-      next: (res: User[]) => console.table(res),
+      next: (res: HttpResponse<User[]>) => {
+        console.log(res.body, res.ok, res.status, res.statusText);
+      },
       error: (err: any) => console.error(err),
       complete: () => console.log('Done getting all users!'),
     });
