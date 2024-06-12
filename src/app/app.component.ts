@@ -76,11 +76,11 @@ export class AppComponent implements OnInit {
       complete: () => console.log('done fetch all popular movies'),
     });
 
-    // this.movieService.searchMovies('Run', 1).subscribe({
-    //   next: (data: any) => console.table(data),
-    //   error: (err: any) => console.error(err),
-    //   complete: () => console.log('done searching movies'),
-    // });
+    this.movieService.searchMovies('Sleep', 1).subscribe({
+      next: (data: any) => console.table(data),
+      error: (err: any) => console.error(err),
+      complete: () => console.log('done searching movies'),
+    });
 
     this.movieService.getNowPlayingMovies(1).subscribe({
       next: (res) => {

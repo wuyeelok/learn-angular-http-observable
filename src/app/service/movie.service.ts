@@ -33,9 +33,6 @@ export class MovieService {
   }
 
   searchMovies(query: string, page: number): Observable<MovieSearchResult[]> {
-    let myHeaders: HttpHeaders = new HttpHeaders();
-    myHeaders = myHeaders.set('Authorization', `Bearer ${this.apiAccessToken}`);
-
     let processPage = page;
     if (!page) {
       processPage = 1;
@@ -47,8 +44,7 @@ export class MovieService {
     myParams = myParams.set('page', processPage);
 
     return this.http
-      .get<MovieSearchResponse>(`${this.apiUrl}/search/movie`, {
-        headers: myHeaders,
+      .get<MovieSearchResponse>(`/search/mov23423434ie`, {
         params: myParams,
       })
       .pipe(map((data) => data.results));
