@@ -70,11 +70,11 @@ export class AppComponent implements OnInit {
 
     // // this.onCreateUser(this.user);
 
-    // this.movieService.displayPopularMovies().subscribe({
-    //   next: (data: any) => console.table(data),
-    //   error: (err: any) => console.error(err),
-    //   complete: () => console.log('done fetch all popular movies'),
-    // });
+    this.movieService.displayPopularMovies().subscribe({
+      next: (data: any) => console.table(data),
+      error: (err: any) => console.error(err),
+      complete: () => console.log('done fetch all popular movies'),
+    });
 
     // this.movieService.searchMovies('Run', 1).subscribe({
     //   next: (data: any) => console.table(data),

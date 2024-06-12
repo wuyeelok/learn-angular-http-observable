@@ -21,16 +21,12 @@ export class MovieService {
   constructor() {}
 
   displayPopularMovies(): Observable<MovieSearchResult[]> {
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.set('Authorization', `Bearer ${this.apiAccessToken}`);
-
     let myParams: HttpParams = new HttpParams();
     myParams = myParams.set('language', 'en-US');
     myParams = myParams.set('page', '1');
 
     return this.http
-      .get<MovieSearchResponse>(`${this.apiUrl}/movie/popular`, {
-        headers: headers,
+      .get<MovieSearchResponse>(`/movie/popular`, {
         params: myParams,
       })
       .pipe(map((movie) => movie.results));
