@@ -95,7 +95,7 @@ export class AppComponent implements OnInit {
         }
       },
       error: (err: any) => console.error(err),
-      complete: () => console.log('done now playing movies'),
+      complete: () => console.log('done fetching now playing movies'),
     });
   }
 
