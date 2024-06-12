@@ -61,9 +61,6 @@ export class MovieService {
   getNowPlayingMovies(
     page: number
   ): Observable<HttpEvent<HttpEvent<MovieSearchResponse>>> {
-    let myHeaders: HttpHeaders = new HttpHeaders();
-    myHeaders = myHeaders.set('Authorization', `Bearer ${this.apiAccessToken}`);
-
     let processPage = page;
     if (!page) {
       processPage = 1;
@@ -73,14 +70,10 @@ export class MovieService {
     myParams = myParams.set('language', 'en-US');
     myParams = myParams.set('page', processPage);
 
-    return this.http.get<HttpEvent<MovieSearchResponse>>(
-      `${this.apiUrl}/movie/now_playing`,
-      {
-        headers: myHeaders,
-        params: myParams,
-        observe: 'events',
-        reportProgress: true,
-      }
-    );
+    return this.http.get<HttpEvent<MovieSearchResponse>>(`/movie/now_playing`, {
+      params: myParams,
+      observe: 'events',
+      reportProgress: true,
+    });
   }
 }
